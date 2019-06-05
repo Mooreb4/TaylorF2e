@@ -23,6 +23,9 @@ class TaylorF2e {
 public:
 	TaylorF2e();
 	TaylorF2e(double e, double p, double M, double eta, double psi, double phi, double thet, double iot, double bet, double f0, double fend, double df);
+	TaylorF2e(double M, double eta, double e, double p, double ampre, double ampim, double f0, double fend, double df);
+	TaylorF2e(double M, double eta, double e, double p, double ampmag, double f0, double fend, double df);
+	TaylorF2e(double M_in, double eta_in, double e_in, double ampmag, double f0_in, double fend_in, double df_in);
 	virtual ~TaylorF2e();
 
 	void init_interps(int N);
@@ -31,6 +34,7 @@ public:
 	double get_y_e(double e);
 	double get_e_fn(double fn);
 	double fin_cond(double e);
+	double get_p_e(double e);
 	double fourier_f_minus_e(double e, int j);
 	double fourier_f_plus_e(double e, int j);
 	double fourier_f_s_e(double e, int s);
@@ -38,17 +42,19 @@ public:
 	double stat_e_s(double f, int s);
 	double cond_minus(double& e, double& f, int& j);
 	double cond_plus(double e, double f, int j);
-	double& stat_e_j_minus(double& f, int& j);
+	double stat_e_j_minus(double& f, int& j);
 	double amplookup_j(double& e, double& y, int& j);
 	double amplookup_s(double e, int s);
+	double e_j_10hz(int& j);
 	complex<double> h_j_plus(double f, int j);
 	complex<double> h_j_minus(double& f, int& j);
 	complex<double> h_s(double f, int j);
 	void make_scheme();
 	double raw_freq_to_disc_ind(double f);
 	void make_F2e_min();
-	vector<vector<complex<double>>>& get_F2e_min();
+	vector<vector<complex<double>>> get_F2e_min();
 	void set_e_fin();
+	void make_F2e_summed();
 	int calls;
 	int count;
 	int calls_guess;
@@ -99,7 +105,12 @@ private:
 	vector<vector<int>> s_range;
 	vector<vector<complex<double>>> F2_min;
 	vector<double> phase_container;
+	vector<double> e_10hz;
 	double e_stat_last;
+	double toff;
+	double loff;
+	double lamoff;
+	vector<complex<double>> F2_summed;
 };
 
 } /* namespace std */
