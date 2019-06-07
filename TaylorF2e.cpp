@@ -587,7 +587,7 @@ vector<vector<complex<double>>> TaylorF2e::get_F2e_min(){
 	return F2_min;
 }
 
-//Finish this if we want the full shit
+//Finish this if we want the full summed frequency response
 
 void TaylorF2e::make_F2e_summed(){
 	make_F2e_min();
