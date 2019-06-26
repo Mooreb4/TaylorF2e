@@ -38,42 +38,42 @@ TaylorF2e::TaylorF2e() {
 	phase_container.resize(3);
 }
 
-TaylorF2e::TaylorF2e(double e_in, double p_in, double M_in, double eta_in, double psi_in, double phi_in, double thet_in, double iot_in, double bet_in, double f0_in, double fend_in, double df_in) {
-	// TODO Auto-generated constructor stub
-	msun = 4.925502303934785*pow(10, -6);
-	e0 = e_in;
-	p0 = p_in;
-	y0 = 1/sqrt(p0);
-	M = M_in*msun;
-	eta = eta_in;
-	psi = psi_in*M_PI;
-	phi = phi_in*M_PI;
-	thet = thet_in*M_PI;
-	iot = iot_in*M_PI;
-	bet = bet_in*M_PI;
-	f0 = f0_in; 				//the f0 to begin the waveform
-	fend = fend_in;				//the final f at which to compute waveform
-	df = df_in;					//the df of the waveform
-	C_vec = Cvec(e0, y0, eta);			//computes the constants of integration coming from y(e0) = y0
-	t_vec = tvec(y0, eta, C_vec);		//computes the constants related to t(e)
-	lam_vec = lamvec(y0, eta, C_vec);	//computes the constants related to lamda(e)
-	l_vec = lvec(y0, eta, C_vec); 		//computes the constants related to l(e)
-	y_vec = yvec(y0, eta, C_vec);		//computes the constants related to y(e)
-	acc_fn_e = gsl_interp_accel_alloc (); 	//alloc the interpolation accelerators for the interpolations of F_n(e), F_w(e), y(e), and e(F_n)
-	acc_fw_e = gsl_interp_accel_alloc ();
-	acc_y_e = gsl_interp_accel_alloc ();
-	acc_e_fn = gsl_interp_accel_alloc ();
-	elast = 0; 								//initialize the value which tracks the e corresponding to choice of waveform truncations
-	F_p = 1./2.*(1+cos(thet)*cos(thet))*cos(2*phi)*cos(2*psi)-cos(thet)*sin(2*phi)*sin(2*psi); //antenna functions
-	F_c = 1./2.*(1+cos(thet)*cos(thet))*cos(2*phi)*cos(2*psi - M_PI/4.)-cos(thet)*sin(2*phi)*sin(2*psi - M_PI/4.);
-	Q = -(F_p*(1+cos(iot))/2 + 1i*cos(iot)*F_c)*(cos(2*bet) + 1i*sin(2*bet)); //overall amplitude factors
-	DL = 1;
-	over_amp = Q*sqrt(10*M_PI*eta)*M*M/DL;
-	calls = 0; 								//trackers for the stationary phase inversion
-	count = 0;
-	e_stat_last = e0;						//this holds the last value of the stationary phase inversion, which is used for an initial guess in the last
-	phase_container.resize(3);				//holds the current value of the phase
-}
+//TaylorF2e::TaylorF2e(double e_in, double p_in, double M_in, double eta_in, double psi_in, double phi_in, double thet_in, double iot_in, double bet_in, double f0_in, double fend_in, double df_in) {
+//	// TODO Auto-generated constructor stub
+//	msun = 4.925502303934785*pow(10, -6);
+//	e0 = e_in;
+//	p0 = p_in;
+//	y0 = 1/sqrt(p0);
+//	M = M_in*msun;
+//	eta = eta_in;
+//	psi = psi_in*M_PI;
+//	phi = phi_in*M_PI;
+//	thet = thet_in*M_PI;
+//	iot = iot_in*M_PI;
+//	bet = bet_in*M_PI;
+//	f0 = f0_in; 				//the f0 to begin the waveform
+//	fend = fend_in;				//the final f at which to compute waveform
+//	df = df_in;					//the df of the waveform
+//	C_vec = Cvec(e0, y0, eta);			//computes the constants of integration coming from y(e0) = y0
+//	t_vec = tvec(y0, eta, C_vec);		//computes the constants related to t(e)
+//	lam_vec = lamvec(y0, eta, C_vec);	//computes the constants related to lamda(e)
+//	l_vec = lvec(y0, eta, C_vec); 		//computes the constants related to l(e)
+//	y_vec = yvec(y0, eta, C_vec);		//computes the constants related to y(e)
+//	acc_fn_e = gsl_interp_accel_alloc (); 	//alloc the interpolation accelerators for the interpolations of F_n(e), F_w(e), y(e), and e(F_n)
+//	acc_fw_e = gsl_interp_accel_alloc ();
+//	acc_y_e = gsl_interp_accel_alloc ();
+//	acc_e_fn = gsl_interp_accel_alloc ();
+//	elast = 0; 								//initialize the value which tracks the e corresponding to choice of waveform truncations
+//	F_p = 1./2.*(1+cos(thet)*cos(thet))*cos(2*phi)*cos(2*psi)-cos(thet)*sin(2*phi)*sin(2*psi); //antenna functions
+//	F_c = 1./2.*(1+cos(thet)*cos(thet))*cos(2*phi)*cos(2*psi - M_PI/4.)-cos(thet)*sin(2*phi)*sin(2*psi - M_PI/4.);
+//	Q = -(F_p*(1+cos(iot))/2 + 1i*cos(iot)*F_c)*(cos(2*bet) + 1i*sin(2*bet)); //overall amplitude factors
+//	DL = 1;
+//	over_amp = Q*sqrt(10*M_PI*eta)*M*M/DL;
+//	calls = 0; 								//trackers for the stationary phase inversion
+//	count = 0;
+//	e_stat_last = e0;						//this holds the last value of the stationary phase inversion, which is used for an initial guess in the last
+//	phase_container.resize(3);				//holds the current value of the phase
+//}
 
 TaylorF2e::TaylorF2e(double M_in, double eta_in, double e_in, double p_in, double ampre, double ampim, double f0_in, double fend_in, double df_in){
 	msun = 4.925502303934785*pow(10, -6);
@@ -148,6 +148,36 @@ TaylorF2e::TaylorF2e(double M_in, double eta_in, double e_in, double ampmag, dou
 	phase_container.resize(3);
 }
 
+TaylorF2e::TaylorF2e(double M_in, double eta_in, double e_in, double thet_in, double phi_in, double psi_in, double iot_in, double lamc_in, double lc_in, double tc_in, double D_in, double f0_in, double fend_in, double df_in){
+	t_c = tc_in;
+	l_c = lc_in;
+	lam_c = lamc_in;
+	msun = 4.925502303934785*pow(10, -6);
+	iot = iot_in;
+	e0 = e_in;
+	eta = eta_in;
+	M = M_in*msun/pow(eta, 3./5.);
+	y0 = pow(M*M_PI*2*5, 1./3.);
+	f0 = f0_in; 				//the f0 to begin the waveform
+	fend = fend_in;				//the final f at which to compute waveform
+	df = df_in;					//the df of the waveform
+	C_vec = Cvec(e0, y0, eta);			//computes the constants of integration coming from y(e0) = y0
+	t_vec = tvec(y0, eta, C_vec);		//computes the constants related to t(e)
+	lam_vec = lamvec(y0, eta, C_vec);	//computes the constants related to lamda(e)
+	l_vec = lvec(y0, eta, C_vec); 		//computes the constants related to l(e)
+	y_vec = yvec(y0, eta, C_vec);		//computes the constants related to y(e)
+	acc_fn_e = gsl_interp_accel_alloc (); 	//alloc the interpolation accelerators for the interpolations of F_n(e), F_w(e), y(e), and e(F_n)
+	acc_fw_e = gsl_interp_accel_alloc ();
+	acc_y_e = gsl_interp_accel_alloc ();
+	acc_e_fn = gsl_interp_accel_alloc ();
+	elast = 0; 								//initialize the value which tracks the e corresponding to choice of waveform truncations
+	over_amp = 0; // this version supports the generation of h_plus and h_cross. Not to use the summed version
+	e_stat_last = e0;						//this holds the last value of the stationary phase inversion, which is used for an initial guess in the last
+	phase_container.resize(3);
+	F_p = sqrt(10*M_PI*eta)*M*M/D_in*1./2.*(1+cos(thet)*cos(thet))*cos(2*phi)*cos(2*psi)-cos(thet)*sin(2*phi)*sin(2*psi); //antenna functions
+	F_c = sqrt(10*M_PI*eta)*M*M/D_in*1./2.*(1+cos(thet)*cos(thet))*cos(2*phi)*cos(2*psi - M_PI/4.)-cos(thet)*sin(2*phi)*sin(2*psi - M_PI/4.);
+}
+
 TaylorF2e::~TaylorF2e() {
 	// TODO Auto-generated destructor stub
 }
@@ -163,19 +193,8 @@ double TaylorF2e::get_p_e(double e){
 ////////////////////////////////////////////////////////////////
 void TaylorF2e::init_interps(int N){
 	vector<double> y_in (2*N);     				//make this vector bigger just so I don't run into memory issues
-	double *y, *e, *F_n, *F_w, *F_n_rev, *e_rev;	//declare the matricies whichi I'll interpolate with GSL
+	double *y, *e, *F_n, *F_w, *F_n_rev, *e_rev;	//declare the matricies which I'll interpolate with GSL
 	int i = 0;
-//	double ein = 0.9;		//want to start sampling a bit before the initial eccentricity, just to give the interpolation range a little play
-//	double de = (double) ein/N;
-//	if (e0 < 0.1) {ein = 0.6; de = (double) 0.6/N;}
-//	if (e0 < 0.01) {ein = 0.1; de = (double) ein/N;}
-//	if (e0 < 0.001) {ein = 0.01; de = (double) ein/N;}
-//	if (e0 < 0.0001) {ein = 0.001; de = (double) ein/N;}
-//	if (e0 < 0.00001) {ein = 0.0001; de = (double) ein/N;}
-//	if (e0 < 0.000001) {ein = 0.00001; de = (double) ein/N;}
-//	if (e0 < 0.0000001) {ein = 0.000001; de = (double) ein/N;}
-//	if (e0 < 0.00000001) {ein = 0.0000001; de = (double) ein/N;}
-
 	double ein = 0.9;
 	double de = abs(11./N);
 	double lne = log(ein) - de*i;
@@ -536,7 +555,7 @@ double TaylorF2e::amplookup_s(double e, int n){
 }
 
 ////////////////////////////////////////////////////////////
-// This function samples h_j(f)
+// This function samples h_j(f) (with and without amplitude term)
 ////////////////////////////////////////////////////////////
 
 
@@ -548,6 +567,18 @@ complex<double> TaylorF2e::h_j_minus(double& f, int& j){
 	complex<double> amp = over_amp*sqrt(1/((j+2)*(96+292*e*e+37*pow(e,4))))*pow(y,-7./2.)*nj;			//compute overall amplitude
 	phasevec(phase_container, e, lam_vec, l_vec, t_vec);												//compute phase functions
 	double phasefact = 2*M_PI*f*M*phase_container[0] - M_PI/4 - (j*phase_container[2] + 2*phase_container[1]); //compute phase
+
+	return amp*(cos(phasefact) + 1i*sin(phasefact));			// assemble h(f)
+}
+
+complex<double> TaylorF2e::h_j_minus_no_sky(double& f, int& j){
+	double e = stat_e_j_minus(f, j);						//invert stat phase condition
+//	cout << "estat = " << e << endl;
+	double y = get_y_e(e);
+	double nj = amplookup_j(e, y, j);						//compute amplitude N_j
+	complex<double> amp = sqrt(1/((j+2)*(96+292*e*e+37*pow(e,4))))*pow(y,-7./2.)*nj;			//compute overall amplitude
+	phasevec(phase_container, e, lam_vec, l_vec, t_vec);												//compute phase functions
+	double phasefact = 2*M_PI*f*(M*phase_container[0] - t_c) - M_PI/4 - (j*(phase_container[2]-l_c) + 2*(phase_container[1]-lam_c)); //compute phase
 
 	return amp*(cos(phasefact) + 1i*sin(phasefact));			// assemble h(f)
 }
@@ -587,18 +618,50 @@ vector<vector<complex<double>>> TaylorF2e::get_F2e_min(){
 	return F2_min;
 }
 
-//Finish this if we want the full summed frequency response
+void sum_f2(vector<vector<complex<double>>> &vect, vector<complex<double>> &summed){
+    int N = vect[0].size();
+    int j = vect.size();
+    for (int i = 0; i < N; i++){
+        for(int k = 0; k < j; k++){
+            summed[i] += vect[k][i];
+        }
+    }
+}
 
-void TaylorF2e::make_F2e_summed(){
-	make_F2e_min();
-	int N = (fend-f0)/df + 1;
-	int jsize = F2_min.size();
+void TaylorF2e::make_F2e_min_plus_cross(){
+	int N = (fend-f0)/df + 1;		//amount of frequency samples
+	vector<vector<complex<double>>> plus_hold(j_min_max + 2, vector<complex<double>> (N));
+	vector<vector<complex<double>>> cross_hold(j_min_max + 2, vector<complex<double>> (N));
+	F2_min_plus.resize(N);		//size up the array which stores the different harmonics
+	F2_min_cross.resize(N);
+	double f;														//hold values of f (doesn't like to cast otherwise)
+	complex<double> phasefactor;
+	complex<double> plus_fact = F_p*(-(1-cos(iot)*cos(iot))/2);
+	complex<double> cross_fact = F_c*(-1i*cos(iot));
 
-	for(int i = 0; i < N; i++){
-		for(int j = 0; j < jsize; j++){
-			F2_summed[i] += F2_min[j][i]*(cos(j*loff) + 1i*sin(j*loff));
+	for(int j = -1; j < j_min_max + 1; j++){ //iterate over j
+//		cout << "j = " << j << endl;
+		e_stat_last = e_10hz[j+1];
+		for(int i = j_min_range[j + 1][0]; i < j_min_range[j + 1][1] + 1; i++){ //iterate frequencies which are given by the scheme
+			if(i > N - 1) {break;}
+//			cout << "f = " << i*df << " i = " << i << " N = " << N <<  endl;
+			f = i*df;
+			phasefactor = h_j_minus_no_sky(f, j);
+			plus_hold[j + 1][i] = plus_fact*phasefactor;
+			cross_hold[j + 1][i] = cross_fact*phasefactor;
 		}
 	}
+	sum_f2(plus_hold, F2_min_plus);
+	sum_f2(cross_hold, F2_min_cross);
+
+}
+
+vector<complex<double>> TaylorF2e::get_F2e_min_plus(){
+	return F2_min_plus;
+}
+
+vector<complex<double>> TaylorF2e::get_F2e_min_cross(){
+	return F2_min_plus;
 }
 
 } /* namespace std */

@@ -22,10 +22,11 @@ namespace std {
 class TaylorF2e {
 public:
 	TaylorF2e();
-	TaylorF2e(double e, double p, double M, double eta, double psi, double phi, double thet, double iot, double bet, double f0, double fend, double df);
+//	TaylorF2e(double e, double p, double M, double eta, double psi, double phi, double thet, double iot, double bet, double f0, double fend, double df);
 	TaylorF2e(double M, double eta, double e, double p, double ampre, double ampim, double f0, double fend, double df);
 	TaylorF2e(double M, double eta, double e, double p, double ampmag, double f0, double fend, double df);
 	TaylorF2e(double M_in, double eta_in, double e_in, double ampmag, double f0_in, double fend_in, double df_in);
+	TaylorF2e(double M_in, double eta_in, double e_in, double thet_in, double phi_in, double psi_in, double iot_in, double lamc_in, double lc_in, double tc_in, double D_in, double f0_in, double fend_in, double df_in);
 	virtual ~TaylorF2e();
 
 	void init_interps(int N);
@@ -55,6 +56,10 @@ public:
 	vector<vector<complex<double>>> get_F2e_min();
 	void set_e_fin();
 	void make_F2e_summed();
+	vector<complex<double>> get_F2e_min_plus();
+	vector<complex<double>> get_F2e_min_cross();
+	complex<double> h_j_minus_no_sky(double& f, int& j);
+	void make_F2e_min_plus_cross();
 	int calls;
 	int count;
 	int calls_guess;
@@ -76,6 +81,9 @@ private:
 	double f0;
 	double fend;
 	double df;
+	double t_c;
+	double l_c;
+	double lam_c;
 	complex<double> Q;
 	complex<double> over_amp;
 	double y0;
@@ -111,6 +119,8 @@ private:
 	double loff;
 	double lamoff;
 	vector<complex<double>> F2_summed;
+	vector<complex<double>> F2_min_plus;
+	vector<complex<double>> F2_min_cross;
 };
 
 } /* namespace std */

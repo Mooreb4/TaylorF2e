@@ -3,6 +3,6 @@ g++ -I/Users/blakemoore/gsl/include -O3 -ffast-math -g3 -c -fmessage-length=0 -s
 g++ -I/Users/blakemoore/gsl/include -O3 -ffast-math -g3 -c -fmessage-length=0 -std=c++14 -MMD -MP -MF"main.d" -MT"main.o" -o "main.o" "main.cpp"
 g++ -L/Users/blakemoore/gsl/lib -o "Gen_TaylorF2e"  ./Amps.o ./TaylorF2e.o ./main.o  -lgsl -lgslcblas -lm
 
-run with something like 
+run with:
 
-./Gen_TaylorF2e 8.7 0.25 -35.55 0.3
+./Gen_TaylorF2e 8.7 0.25 0.8 0.23 0.23 0.23 0.23 5 5 5 1e18
