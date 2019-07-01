@@ -636,8 +636,8 @@ void TaylorF2e::make_F2e_min_plus_cross(){
 	F2_min_cross.resize(N);
 	double f;														//hold values of f (doesn't like to cast otherwise)
 	complex<double> phasefactor;
-	complex<double> plus_fact = F_p*(-(1-cos(iot)*cos(iot))/2);
-	complex<double> cross_fact = F_c*(-1i*cos(iot));
+	complex<double> plus_fact = (-(1-cos(iot)*cos(iot))/2);
+	complex<double> cross_fact = (-1i*cos(iot));
 
 	for(int j = -1; j < j_min_max + 1; j++){ //iterate over j
 //		cout << "j = " << j << endl;
