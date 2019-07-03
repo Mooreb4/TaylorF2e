@@ -33,8 +33,6 @@ def gen(**params):
     f.argtypes = [c_void_p, c_void_p, c_double, c_double, c_double,
                   c_double, c_double, c_double, c_double, c_double, c_double]
 
-    print mchirp, eta, inc, ecc, lamc, lc, dist, fend, df
-
     _ = f(hp.ctypes.data, hc.ctypes.data,
           mchirp, eta, inc, ecc, lamc, lc, dist, fend, df)
 

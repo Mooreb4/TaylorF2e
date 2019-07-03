@@ -640,9 +640,6 @@ void TaylorF2e::make_F2e_min_plus_cross(){
 	complex<double> plus_fact = sqrt(10*M_PI*eta)*M*M / DL * (-(1 + cos(iot)*cos(iot))/2);
 	complex<double> cross_fact = sqrt(10*M_PI*eta)*M*M / DL * (-1i*cos(iot));
 
-    cout<<plus_fact<<endl;
-    cout<<cross_fact<<endl;
-
 	for(int j = -1; j < j_min_max + 1; j++){ //iterate over j
 //		cout << "j = " << j << endl;
 		e_stat_last = e_10hz[j+1];
