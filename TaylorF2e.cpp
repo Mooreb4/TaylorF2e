@@ -174,6 +174,7 @@ TaylorF2e::TaylorF2e(double M_in, double eta_in, double e_in, double thet_in, do
 	over_amp = 0; // this version supports the generation of h_plus and h_cross. Not to use the summed version
 	e_stat_last = e0;						//this holds the last value of the stationary phase inversion, which is used for an initial guess in the last
 	phase_container.resize(3);
+    DL = D_in;
 	F_p = sqrt(10*M_PI*eta)*M*M/D_in*1./2.*(1+cos(thet)*cos(thet))*cos(2*phi)*cos(2*psi)-cos(thet)*sin(2*phi)*sin(2*psi); //antenna functions
 	F_c = sqrt(10*M_PI*eta)*M*M/D_in*1./2.*(1+cos(thet)*cos(thet))*cos(2*phi)*cos(2*psi - M_PI/4.)-cos(thet)*sin(2*phi)*sin(2*psi - M_PI/4.);
 }
@@ -636,8 +637,8 @@ void TaylorF2e::make_F2e_min_plus_cross(){
 	F2_min_cross.resize(N);
 	double f;														//hold values of f (doesn't like to cast otherwise)
 	complex<double> phasefactor;
-	complex<double> plus_fact = F_p*(-(1-cos(iot)*cos(iot))/2);
-	complex<double> cross_fact = F_c*(-1i*cos(iot));
+	complex<double> plus_fact = sqrt(10*M_PI*eta)*M*M / DL * (-(1 + cos(iot)*cos(iot))/2);
+	complex<double> cross_fact = sqrt(10*M_PI*eta)*M*M / DL * (-1i*cos(iot));
 
 	for(int j = -1; j < j_min_max + 1; j++){ //iterate over j
 //		cout << "j = " << j << endl;
@@ -647,8 +648,8 @@ void TaylorF2e::make_F2e_min_plus_cross(){
 //			cout << "f = " << i*df << " i = " << i << " N = " << N <<  endl;
 			f = i*df;
 			phasefactor = h_j_minus_no_sky(f, j);
-			plus_hold[j + 1][i] = plus_fact*phasefactor;
-			cross_hold[j + 1][i] = cross_fact*phasefactor;
+			plus_hold[j + 1][i] = plus_fact * phasefactor;
+			cross_hold[j + 1][i] = cross_fact * phasefactor;
 		}
 	}
 	sum_f2(plus_hold, F2_min_plus);
