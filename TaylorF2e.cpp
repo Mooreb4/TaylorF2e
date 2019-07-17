@@ -654,7 +654,15 @@ void TaylorF2e::make_F2e_min_plus_cross(){
 	}
 	sum_f2(plus_hold, F2_min_plus);
 	sum_f2(cross_hold, F2_min_cross);
-
+    
+    gsl_spline_free(spline_y_e);
+    gsl_spline_free(spline_fn_e);
+    gsl_spline_free(spline_fw_e);
+    gsl_spline_free(spline_e_fn);
+    gsl_interp_accel_free(acc_y_e);
+    gsl_interp_accel_free(acc_fn_e);
+    gsl_interp_accel_free(acc_fw_e);
+    gsl_interp_accel_free(acc_e_fn);
 }
 
 vector<complex<double>> TaylorF2e::get_F2e_min_plus(){
