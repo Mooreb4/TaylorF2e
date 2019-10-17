@@ -670,7 +670,7 @@ vector<complex<double>> TaylorF2e::get_F2e_min_plus(){
 }
 
 vector<complex<double>> TaylorF2e::get_F2e_min_cross(){
-	return F2_min_plus;
+	return F2_min_cross;
 }
 
 } /* namespace std */
